@@ -1,0 +1,104 @@
+#include <iostream>
+#include <cmath>
+#include <string>
+using namespace std;
+
+bool is_in_odz(double value) {
+	const double pi = 3.1415926;
+	double a = (pi / 180) * value;
+	if ((a <= 0) || (pow(a, 2) - 4 * a * sqrt(a) < 0) || (a - 2 * sqrt(a) <= 0))
+		return false;
+	return true;
+}
+
+
+bool is_right(string str)
+{
+	bool is_dot = false;
+	if (!isdigit(str[0]) && str[0] != '-')
+	{
+		return false;
+	}
+	for (int i = 1; i < str.length(); i++)
+	{
+		if (str[i] == '.' && is_dot == false)
+		{
+			is_dot = true;
+
+		}
+		else if (!isdigit(str[i]))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+
+double calculate_1(double value) {
+
+	const double pi = 3.1415926;
+	double a = (pi / 180) * value;
+	double z1;
+
+	z1 = ((a - 2) / (pow(a, 2)) + (sqrt(pow(a, 2) - 4 * a * sqrt(a) + 4 * a) / sqrt(a - 2 * sqrt(a))));
+
+	return z1;
+}
+
+
+double calculate_2(double value) {
+
+	const double pi = 3.1415926;
+	double a = (pi / 180) * value;
+	double z2;
+
+	z2 = (1 / a) - (2 / (pow(a, 2))) + (sqrt(a - 2 * sqrt(a)));
+
+	return z2;
+}
+bool raven(double res1, double res2) {
+	double e = 0.00001;
+
+	if (abs(res1 - res2) <= e) {
+		return true;
+	}
+	return false;
+}
+//проверка на буквы и одз
+
+int main() {
+
+	setlocale(LC_ALL, "rus");
+
+	double a_double, result_1, result_2;
+	string a;
+
+	while (1)
+	{
+
+		cout << "Введите значение a в градусах" << endl;
+		cin >> a;
+
+		if (is_right(a)) {
+			a_double = stoi(a);
+			if (is_in_odz(a_double)) {
+				break;
+			}
+		}
+		cout << "Вы ввели число некорректно или оно не входит в ОДЗ" << endl;
+	}
+	result_1 = calculate_1(a_double);
+	result_2 = calculate_2(a_double);
+
+	cout << "Значение первого выражения" << endl << result_1 << endl;
+	cout << "Значение второго выражения" << endl << result_2 << endl;
+	if (raven(result_1, result_2)) {
+		cout << "Значения выражений равны" << endl;
+	}
+	else {
+		cout << "Значения выражений не равны" << endl;
+	}
+
+}
